@@ -1,6 +1,14 @@
 pipeline {
   agent none
   stages {
+    stage('Machine-version') {
+      agent {
+        docker { image 'ubuntu:latest' }
+      }
+      steps {
+        sh ' echo "next stage is on the way"'
+      }
+    }
     stage('Back-end') {
       agent {
         docker { image 'maven:3.8.1-adoptopenjdk-11' }
@@ -17,5 +25,6 @@ pipeline {
         sh 'node --version'
       }
     }
+    
   }
 }
