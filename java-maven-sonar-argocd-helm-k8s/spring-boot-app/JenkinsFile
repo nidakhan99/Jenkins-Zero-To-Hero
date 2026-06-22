@@ -8,15 +8,10 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkout([
-          $class: 'GitSCM',
-          branches: [[name: '*/main']],
-          userRemoteConfigs: [[
-            url: 'https://github.com/nidakhan99/Jenkins-Zero-To-Hero.git',
-            credentialsId: 'github'
-          ]]
-        ])
+        sh 'echo passed'
+        git branch: 'main', url: 'https://github.com/nidakhan99/Jenkins-Zero-To-Hero.git'
       }
+        
     }
     stage('Build and Test') {
       steps {
@@ -60,13 +55,13 @@ pipeline {
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
-                    git config user.email "nidatanveer242@gmail.com"
+                    git config --global user.email "nidatanveer242@gmail.com"
                     git config user.name "nidakhan99"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git commit -m "Update deployment image to version ${BUILD_NUMBER}"
-                    git push https://nidakhan99:${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                    git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                 '''
             }
         }
