@@ -20,6 +20,10 @@ pipeline {
       }
     }
     stage('Static Code Analysis') {
+      docker {
+            image 'maven:3.9.9-eclipse-temurin-17'
+            args '-v /root/.m2:/root/.m2'
+      }
       environment {
         SONAR_URL = "http://35.154.132.60:9000"
       }
