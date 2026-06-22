@@ -8,8 +8,14 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        sh 'echo passed'
-        git branch: 'main', url: 'https://github.com/nidakhan99/Jenkins-Zero-To-Hero'
+        checkout([
+          $class: 'GitSCM',
+          branches: [[name: '*/main']],
+          userRemoteConfigs: [[
+            url: 'https://github.com/nidakhan99/Jenkins-Zero-To-Hero.git',
+            credentialsId: 'github'
+          ]]
+        ])
       }
     }
     stage('Build and Test') {
