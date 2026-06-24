@@ -6,7 +6,8 @@ def call(Map config = [:]) {
     String dockerImage = config.dockerImage ?: error("dockerImage is required")
     String credentialsId = config.credentialsId ?: 'docker-cred'
 
-    def dockerHelper = new DockerHelper(this)
+    { def dockerHelper = new DockerHelper(this)
 
     dockerHelper.buildAndPush(projectDir, dockerImage, credentialsId)
+    }
 }
