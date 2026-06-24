@@ -1,17 +1,19 @@
 package org.company.devops
 
-class SonarHelper implements Serializable{
+class SonarHelper implements Serializable {
 
-    def script
+    def steps
 
-    SonarHelper(def script) {
-        this.script = script
+    SonarHelper(steps) {
+        this.steps = steps
     }
 
-
-void run(String sonarUrl){
-        script.echo "Running Static code analysis tests using sonar"
-        script.sh ""cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}""
-    
+    void scan(String projectDir, String sonarUrl) {
+        steps.sh """
+            cd ${projectDir}
+            mvn sonar:sonar \
+              -Dsonar.login=\$SONAR_AUTH_TOKEN \
+              -Dsonar.host.url=${sonarUrl}
+        """
+    }
 }
-
