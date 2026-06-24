@@ -11,8 +11,7 @@ class DockerHelper implements Serializable {
     void buildAndPush(String projectDir, String dockerImage, String credentialsId) {
 
         script.sh """
-            cd ${projectDir}
-            docker build -t ${dockerImage} .
+            cd ${projectDir} && docker build -t ${dockerImage} .
         """
 
         def image = script.docker.image(dockerImage)
