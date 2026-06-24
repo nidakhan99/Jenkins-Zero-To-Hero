@@ -1,4 +1,4 @@
-import org.comapany.devops.MavenHelper
+import org.company.devops.MavenHelper
 
 def call(String command = "package") {
     def maven = new MavenHelper(this)
