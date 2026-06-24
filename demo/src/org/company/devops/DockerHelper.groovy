@@ -10,7 +10,7 @@ class DockerHelper implements Serializable{
         this.steps = steps
     }
 
-    void scan(String projectDir, String DOCKER_IMAGE, docker-cred) {
+    void scan(String projectDir, String DOCKER_IMAGE, String docker-cred) {
         steps.sh """
             cd ${projectDir} && docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")
