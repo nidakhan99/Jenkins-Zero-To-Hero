@@ -2,24 +2,20 @@ package org.company.devops
 
 class DockerHelper implements Serializable{
 
-    def script
+   
 
-    MavenHelper(def script) {
-        this.script = script
+    def steps
+
+    DockerHelper(steps) {
+        this.steps = steps
     }
 
-    def cleanPackage() {
-        script.echo "Running Maven clean package"
-        script.sh "cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package"
-    }
-
-    def cleanInstall() {
-        script.echo "Running Maven clean install"
-        script.sh "cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean install"
-    }
-
-    def test() {
-        script.echo "Running Maven tests"
-        script.sh "cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn test"
+    void scan(String projectDir, String DOCKER_IMAGE, docker-cred) {
+        steps.sh """
+            cd ${projectDir} && docker build -t ${DOCKER_IMAGE} .'
+            def dockerImage = docker.image("${DOCKER_IMAGE}")
+            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
+                dockerImage.push()
+        """
     }
 }
