@@ -6,7 +6,7 @@ def call(Map config = [:]) {
     String credentialsId = config.credentialsId ?: 'sonarqube'
 
     withCredentials([string(credentialsId: credentialsId, variable: 'SONAR_AUTH_TOKEN')]) {
-        def scanner = new SonarScanner(this)
+        def scanner = new sonarScanner(this)
         scanner.run(sonarUrl)
     }
 }
