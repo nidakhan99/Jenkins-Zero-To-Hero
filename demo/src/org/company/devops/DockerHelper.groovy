@@ -1,21 +1,24 @@
 package org.company.devops
 
-class DockerHelper implements Serializable{
+class DockerHelper implements Serializable {
 
-   
+    def script
 
-    def steps
-
-    DockerHelper(steps) {
-        this.steps = steps
+    DockerHelper(script) {
+        this.script = script
     }
 
-    void scan(String projectDir, String DOCKER_IMAGE, String docker-cred) {
-        steps.sh """
-            cd ${projectDir} && docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                dockerImage.push()
+    void buildAndPush(String projectDir, String dockerImage, String credentialsId) {
+
+        script.sh """
+            cd ${projectDir}
+            docker build -t ${dockerImage} .
         """
+
+        def image = script.docker.image(dockerImage)
+
+        script.docker.withRegistry('https://index.docker.io/v1/', credentialsId) {
+            image.push()
+        }
     }
 }
