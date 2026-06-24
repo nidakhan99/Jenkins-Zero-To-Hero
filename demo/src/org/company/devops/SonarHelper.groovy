@@ -8,7 +8,8 @@ class SonarHelper implements Serializable{
         this.script = script
     }
 
-    def staticCodeanalysis() {
+
+void run(String sonarUrl){
         script.echo "Running Static code analysis tests using sonar"
         script.sh "cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn sonar:sonar -Dsonar.login=$SONAR_AUTH_TOKEN -Dsonar.host.url=${SONAR_URL}"
     
