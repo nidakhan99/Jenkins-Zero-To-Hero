@@ -1,12 +1,3 @@
-//def call()
-//{
-//sh 'echo Maven Building the code'
-//sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && mvn clean package -DskipTests'
-
-
-//}
-
-
 import org.comapany.devops.MavenHelper
 
 def call(String command = "package") {
